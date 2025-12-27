@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Transaction Form -->
+    <record id="view_brandat_transaction_form" model="ir.ui.view">
+        <field name="name">brandat.transaction.form</field>
+        <field name="model">brandat.transaction</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="تأكيد" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    
+                    <button name="action_cancel" string="إلغاء" 
+                            type="object"
+                            invisible="state != 'draft'"/>
+                    
+                    <button name="action_draft" string="إرجاع لمسودة" 
+                            type="object"
+                            invisible="state != 'cancel'"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="transaction_type" readonly="state == 'confirmed'"/>
+                            <field name="category_id" readonly="state == 'confirmed'"
+                                   domain="[('type', '=', transaction_type)]"
+                                   invisible="transaction_type == 'transfer'"/>
+                            <field name="amount" readonly="state == 'confirmed'"/>
+                            <field name="date" readonly="state == 'confirmed'"/>
+                        </group>
+                        <group>
+                            <field name="treasury_id" readonly="state == 'confirmed'"/>
+                            <field name="employee_id" readonly="state == 'confirmed'"/>
+                            <field name="payment_method" readonly="state == 'confirmed'"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="description" placeholder="وصف المعاملة..." 
+                               readonly="state == 'confirmed'"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="المرجع" invisible="not reference_model">
+                            <group>
+                                <field name="reference_model" readonly="1"/>
+                                <field name="reference_id" readonly="1"/>
+                            </group>
+                        </page>
+                        
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Transaction List -->
+    <record id="view_brandat_transaction_list" model="ir.ui.view">
+        <field name="name">brandat.transaction.list</field>
+        <field name="model">brandat.transaction</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="transaction_type"/>
+                <field name="category_id"/>
+                <field name="amount" sum="الإجمالي"/>
+                <field name="payment_method"/>
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Transaction Action -->
+    <record id="action_brandat_transaction" model="ir.actions.act_window">
+        <field name="name">المعاملات المالية</field>
+        <field name="res_model">brandat.transaction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Transaction Category List -->
+    <record id="view_brandat_transaction_category_list" model="ir.ui.view">
+        <field name="name">brandat.transaction.category.list</field>
+        <field name="model">brandat.transaction.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="type"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Transaction Category Action -->
+    <record id="action_brandat_transaction_category" model="ir.actions.act_window">
+        <field name="name">تصنيفات المعاملات</field>
+        <field name="res_model">brandat.transaction.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_transaction"
+              name="المعاملات المالية"
+              parent="menu_brandat_accounting"
+              action="action_brandat_transaction"
+              sequence="20"/>
+              
+    <menuitem id="menu_brandat_transaction_category"
+              name="تصنيفات المعاملات"
+              parent="menu_brandat_config"
+              action="action_brandat_transaction_category"
+              sequence="50"/>
+</odoo>

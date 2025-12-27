@@ -1,0 +1,36 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Odoo
+*.pyc
+*.pyo
+*.log
+
+# Database
+*.db
+*.sqlite3
+
+# Environment
+.env
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Odoo filestore
+filestore/
+
+# Backup files
+*.bak
+*.backup

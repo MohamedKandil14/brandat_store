@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_brandat_stock_list" model="ir.ui.view">
+        <field name="name">brandat.stock.list</field>
+        <field name="model">brandat.stock</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="store_id"/>
+                <field name="product_id"/>
+                <field name="size_id"/>
+                <field name="color_id"/>
+                <field name="quantity"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_brandat_stock_form" model="ir.ui.view">
+        <field name="name">brandat.stock.form</field>
+        <field name="model">brandat.stock</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="store_id"/>
+                        <field name="product_id"/>
+                        <field name="size_id"/>
+                        <field name="color_id"/>
+                        <field name="quantity"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_brandat_stock" model="ir.actions.act_window">
+        <field name="name">المخزون</field>
+        <field name="res_model">brandat.stock</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_brandat_stock_search" model="ir.ui.view">
+    <field name="name">brandat.stock.search</field>
+    <field name="model">brandat.stock</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="product_id"/>
+            <field name="store_id"/>
+            <filter string="متاح" name="state_available" domain="[('state', '=', 'available')]"/>
+            <filter string="منخفض" name="state_low" domain="[('state', '=', 'low')]"/>
+            <filter string="نفذ" name="state_out" domain="[('state', '=', 'out')]"/>
+            <group expand="0" string="تجميع حسب">
+                <filter string="الفرع" name="group_by_store" context="{'group_by': 'store_id'}"/>
+                <filter string="المنتج" name="group_by_product" context="{'group_by': 'product_id'}"/>
+                <filter string="الحالة" name="group_by_state" context="{'group_by': 'state'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+    <menuitem id="menu_brandat_stock"
+              name="المخزون"
+              parent="menu_brandat_root"
+              action="action_brandat_stock"
+              sequence="30"/>
+</odoo>

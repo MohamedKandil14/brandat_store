@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_brandat_root"
+              name="Brandat"
+              sequence="10"
+              web_icon="brandat_product,static/description/icon.png"/>
+    
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_brandat_config"
+              name="الإعدادات"
+              parent="menu_brandat_root"
+              sequence="100"/>
+</odoo>

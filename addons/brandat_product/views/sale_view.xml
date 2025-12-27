@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sale Form -->
+    <record id="view_brandat_sale_form" model="ir.ui.view">
+        <field name="name">brandat.sale.form</field>
+        <field name="model">brandat.sale</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- زر التأكيد -->
+                    <button name="action_confirm" string="تأكيد الفاتورة" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    
+                    <!-- أزرار الطباعة والإرسال -->
+                    <button name="action_print_invoice" string="🖨️ طباعة الفاتورة" 
+                            type="object" class="btn-info"
+                            invisible="state == 'draft'"/>
+                    
+                    <button name="action_send_email" string="📧 إرسال بالإيميل" 
+                            type="object" class="btn-success"
+                            invisible="state == 'draft'"/>
+                    
+                    <button name="action_send_whatsapp" string="📱 إرسال واتساب" 
+                            type="object" class="btn-success"
+                            invisible="state == 'draft'"/>
+                    
+                    <!-- زر المرتجع -->
+                    <button name="action_create_return" string="🔄 إنشاء مرتجع" 
+                            type="object" class="btn-warning"
+                            invisible="state != 'confirmed'"/>
+                    
+                    <!-- أزرار الحالة -->
+                    <button name="action_cancel" string="إلغاء" 
+                            type="object"
+                            invisible="state != 'draft'"/>
+                    
+                    <button name="action_draft" string="إرجاع لمسودة" 
+                            type="object"
+                            invisible="state != 'cancel'"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <!-- Stat Buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_returns" type="object" 
+                                class="oe_stat_button" icon="fa-undo"
+                                invisible="not has_returns">
+                            <field name="return_count" widget="statinfo" string="المرتجعات"/>
+                        </button>
+                        <field name="has_returns" invisible="1"/>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id" readonly="state != 'draft'"/>
+                            <field name="employee_id" readonly="state != 'draft'"/>
+                            <field name="customer_id" readonly="state != 'draft'"/>
+                            <field name="partner_id" readonly="state != 'draft'" string="عميل آخر (اختياري)"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="المنتجات">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="size_id"/>
+                                    <field name="color_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_untaxed" string="المبلغ قبل الخصم"/>
+                                    <field name="amount_untaxed" nolabel="1" class="oe_subtotal_footer_separator"/>
+                                </div>
+                                <field name="discount_type" readonly="state != 'draft'"/>
+                                <field name="discount_value" readonly="state != 'draft'"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="discount_amount" string="الخصم"/>
+                                    <field name="discount_amount" nolabel="1"/>
+                                </div>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total" string="الإجمالي"/>
+                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"/>
+                                </div>
+                            </group>
+                            <div class="oe_clear"/>
+                        </page>
+                        <page string="نقاط الولاء" invisible="not customer_id">
+                            <group>
+                                <group>
+                                    <field name="loyalty_points_earned" readonly="1"/>
+                                    <field name="loyalty_points_used" readonly="state != 'draft'"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Sale List -->
+    <record id="view_brandat_sale_list" model="ir.ui.view">
+        <field name="name">brandat.sale.list</field>
+        <field name="model">brandat.sale</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="store_id"/>
+                <field name="employee_id"/>
+                <field name="customer_id"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="amount_untaxed" sum="الإجمالي" optional="show"/>
+                <field name="discount_amount" sum="الإجمالي" optional="show"/>
+                <field name="amount_total" sum="الإجمالي"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Sale Action -->
+    <record id="action_brandat_sale" model="ir.actions.act_window">
+        <field name="name">الفواتير</field>
+        <field name="res_model">brandat.sale</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Menu -->
+    <menuitem id="menu_brandat_sale"
+              name="الفواتير"
+              parent="menu_brandat_root"
+              action="action_brandat_sale"
+              sequence="10"/>
+</odoo>

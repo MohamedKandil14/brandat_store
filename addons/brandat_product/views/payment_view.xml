@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment Form -->
+    <record id="view_brandat_payment_form" model="ir.ui.view">
+        <field name="name">brandat.payment.form</field>
+        <field name="model">brandat.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="تأكيد الدفعة" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    
+                    <button name="action_cancel" string="إلغاء" 
+                            type="object"
+                            invisible="state != 'draft'"/>
+                    
+                    <button name="action_draft" string="إرجاع لمسودة" 
+                            type="object"
+                            invisible="state != 'cancel'"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="payment_type" readonly="state == 'confirmed'"/>
+                            <field name="customer_id" readonly="state == 'confirmed'"
+                                   invisible="payment_type != 'customer'"
+                                   required="payment_type == 'customer'"/>
+                            <field name="supplier_id" readonly="state == 'confirmed'"
+                                   invisible="payment_type != 'supplier'"
+                                   required="payment_type == 'supplier'"/>
+                            <field name="amount" readonly="state == 'confirmed'"/>
+                            <field name="date" readonly="state == 'confirmed'"/>
+                        </group>
+                        <group>
+                            <field name="treasury_id" readonly="state == 'confirmed'"/>
+                            <field name="payment_method" readonly="state == 'confirmed'"/>
+                            <field name="reference" readonly="state == 'confirmed'"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="المرجع">
+                            <field name="sale_id" readonly="state == 'confirmed'"
+                                   invisible="payment_type != 'customer'"/>
+                            <field name="purchase_id" readonly="state == 'confirmed'"
+                                   invisible="payment_type != 'supplier'"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Payment List -->
+    <record id="view_brandat_payment_list" model="ir.ui.view">
+        <field name="name">brandat.payment.list</field>
+        <field name="model">brandat.payment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="payment_type"/>
+                <field name="customer_id"/>
+                <field name="supplier_id"/>
+                <field name="amount" sum="الإجمالي"/>
+                <field name="payment_method"/>
+                <field name="date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Payment Action -->
+    <record id="action_brandat_payment" model="ir.actions.act_window">
+        <field name="name">الدفعات</field>
+        <field name="res_model">brandat.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Customer Payments Action -->
+    <record id="action_brandat_payment_customer" model="ir.actions.act_window">
+        <field name="name">دفعات العملاء</field>
+        <field name="res_model">brandat.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('payment_type', '=', 'customer')]</field>
+        <field name="context">{'default_payment_type': 'customer'}</field>
+    </record>
+
+    <!-- Supplier Payments Action -->
+    <record id="action_brandat_payment_supplier" model="ir.actions.act_window">
+        <field name="name">دفعات الموردين</field>
+        <field name="res_model">brandat.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('payment_type', '=', 'supplier')]</field>
+        <field name="context">{'default_payment_type': 'supplier'}</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_payment"
+              name="الدفعات"
+              parent="menu_brandat_accounting"
+              sequence="30"/>
+              
+    <menuitem id="menu_brandat_payment_customer"
+              name="دفعات العملاء"
+              parent="menu_brandat_payment"
+              action="action_brandat_payment_customer"
+              sequence="10"/>
+              
+    <menuitem id="menu_brandat_payment_supplier"
+              name="دفعات الموردين"
+              parent="menu_brandat_payment"
+              action="action_brandat_payment_supplier"
+              sequence="20"/>
+</odoo>

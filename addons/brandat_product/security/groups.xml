@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Categories -->
+    <record id="module_category_brandat" model="ir.module.category">
+        <field name="name">Brandat</field>
+        <field name="description">إدارة الصلاحيات لنظام براندات</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <!-- Groups -->
+    <record id="group_brandat_cashier" model="res.groups">
+        <field name="name">كاشير</field>
+        <field name="category_id" ref="module_category_brandat"/>
+        <field name="comment">صلاحيات الكاشير - إنشاء فواتير فقط</field>
+    </record>
+
+    <record id="group_brandat_sales" model="res.groups">
+        <field name="name">موظف مبيعات</field>
+        <field name="category_id" ref="module_category_brandat"/>
+        <field name="implied_ids" eval="[(4, ref('group_brandat_cashier'))]"/>
+        <field name="comment">صلاحيات موظف المبيعات - الفواتير والعملاء</field>
+    </record>
+
+    <record id="group_brandat_supervisor" model="res.groups">
+        <field name="name">مشرف</field>
+        <field name="category_id" ref="module_category_brandat"/>
+        <field name="implied_ids" eval="[(4, ref('group_brandat_sales'))]"/>
+        <field name="comment">صلاحيات المشرف - المبيعات والمخزون والمرتجعات</field>
+    </record>
+
+    <record id="group_brandat_manager" model="res.groups">
+        <field name="name">مدير</field>
+        <field name="category_id" ref="module_category_brandat"/>
+        <field name="implied_ids" eval="[(4, ref('group_brandat_supervisor'))]"/>
+        <field name="comment">صلاحيات المدير - كل شيء ما عدا إعدادات النظام</field>
+    </record>
+
+    <record id="group_brandat_owner" model="res.groups">
+        <field name="name">مالك</field>
+        <field name="category_id" ref="module_category_brandat"/>
+        <field name="implied_ids" eval="[(4, ref('group_brandat_manager'))]"/>
+        <field name="comment">صلاحيات المالك - كل شيء بدون قيود</field>
+    </record>
+
+    <!-- Record Rules -->
+    <!-- الكاشير يشوف فواتيره فقط -->
+    <record id="brandat_sale_cashier_rule" model="ir.rule">
+        <field name="name">Cashier: Own Sales Only</field>
+        <field name="model_id" ref="model_brandat_sale"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_brandat_cashier'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- المشرف والأعلى يشوف كل شيء -->
+    <record id="brandat_sale_supervisor_rule" model="ir.rule">
+        <field name="name">Supervisor: All Sales</field>
+        <field name="model_id" ref="model_brandat_sale"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_brandat_supervisor')), (4, ref('group_brandat_manager')), (4, ref('group_brandat_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- الموظفين - كل موظف يشوف بياناته فقط -->
+    <record id="brandat_employee_own_rule" model="ir.rule">
+        <field name="name">Employee: Own Data</field>
+        <field name="model_id" ref="model_brandat_employee"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_brandat_cashier')), (4, ref('group_brandat_sales'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- المدير والمالك - كل الموظفين -->
+    <record id="brandat_employee_manager_rule" model="ir.rule">
+        <field name="name">Manager: All Employees</field>
+        <field name="model_id" ref="model_brandat_employee"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_brandat_manager')), (4, ref('group_brandat_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>

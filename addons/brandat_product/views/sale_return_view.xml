@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sale Return Form -->
+    <record id="view_brandat_sale_return_form" model="ir.ui.view">
+        <field name="name">brandat.sale.return.form</field>
+        <field name="model">brandat.sale.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="اعتماد المرتجع" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_complete" string="إكمال وإرجاع للمخزون" 
+                            type="object" class="btn-success"
+                            invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="إلغاء" 
+                            type="object"
+                            invisible="state in ['done', 'cancel']"/>
+                    <button name="action_draft" string="إرجاع لمسودة" 
+                            type="object"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-clock-o" readonly="1">
+                            <field name="days_since_sale" widget="statinfo" string="أيام من البيع"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-check-circle" readonly="1">
+                            <field name="can_return" widget="boolean" string="يمكن الإرجاع"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="sale_id" readonly="state != 'draft'" 
+                                   options="{'no_create': True}"/>
+                            <field name="store_id" readonly="1"/>
+                            <field name="customer_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="return_type" readonly="state != 'draft'" widget="radio"/>
+                            <field name="return_period_days" invisible="1"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group>
+                            <field name="reason" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="reason_details" readonly="state != 'draft'" 
+                                   placeholder="تفاصيل إضافية عن سبب المرتجع..."/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="المنتجات المرتجعة">
+                            <field name="line_ids" readonly="state not in ['draft', 'approved']">
+                                <list editable="bottom">
+                                    <field name="sale_line_id" column_invisible="1"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="size_id" readonly="1"/>
+                                    <field name="color_id" readonly="1"/>
+                                    <field name="quantity_sold" readonly="1"/>
+                                    <field name="quantity_return"/>
+                                    <field name="price_unit" readonly="1"/>
+                                    <field name="return_amount" readonly="1" sum="الإجمالي"/>
+                                </list>
+                            </field>
+                            
+                            <group class="oe_subtotal_footer oe_right">
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="return_amount" string="إجمالي المرتجع"/>
+                                    <field name="return_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                                </div>
+                            </group>
+                        </page>
+                        
+                        <page string="المنتجات البديلة" invisible="return_type != 'exchange'">
+                            <field name="exchange_line_ids" readonly="state not in ['draft', 'approved']">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="size_id"/>
+                                    <field name="color_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="exchange_amount" readonly="1" sum="الإجمالي"/>
+                                </list>
+                            </field>
+                            
+                            <group class="oe_subtotal_footer oe_right">
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="exchange_amount" string="إجمالي الاستبدال"/>
+                                    <field name="exchange_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                                </div>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="difference_amount" string="الفرق"/>
+                                    <field name="difference_amount" nolabel="1" 
+                                           class="oe_subtotal_footer_separator"/>
+                                </div>
+                            </group>
+                        </page>
+                        
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية..." readonly="state == 'done'"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Sale Return List -->
+    <record id="view_brandat_sale_return_list" model="ir.ui.view">
+        <field name="name">brandat.sale.return.list</field>
+        <field name="model">brandat.sale.return</field>
+        <field name="arch" type="xml">
+            <list decoration-info="state == 'draft'" 
+                  decoration-warning="state == 'approved'" 
+                  decoration-success="state == 'done'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="sale_id"/>
+                <field name="customer_id"/>
+                <field name="date"/>
+                <field name="return_type"/>
+                <field name="reason"/>
+                <field name="return_amount" sum="الإجمالي"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Sale Return Search -->
+    <record id="view_brandat_sale_return_search" model="ir.ui.view">
+        <field name="name">brandat.sale.return.search</field>
+        <field name="model">brandat.sale.return</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="sale_id"/>
+                <field name="customer_id"/>
+                <filter string="مرتجعات" name="return_type_return" 
+                        domain="[('return_type', '=', 'return')]"/>
+                <filter string="استبدال" name="return_type_exchange" 
+                        domain="[('return_type', '=', 'exchange')]"/>
+                <separator/>
+                <filter string="مسودة" name="state_draft" 
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="معتمد" name="state_approved" 
+                        domain="[('state', '=', 'approved')]"/>
+                <filter string="مكتمل" name="state_done" 
+                        domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="تجميع حسب">
+                    <filter string="نوع العملية" name="group_by_type" context="{'group_by': 'return_type'}"/>
+                    <filter string="السبب" name="group_by_reason" context="{'group_by': 'reason'}"/>
+                    <filter string="الحالة" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="الفرع" name="group_by_store" context="{'group_by': 'store_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Sale Return Action -->
+    <record id="action_brandat_sale_return" model="ir.actions.act_window">
+        <field name="name">المرتجعات والاستبدال</field>
+        <field name="res_model">brandat.sale.return</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_state_draft': 1}</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_sale_return"
+              name="المرتجعات والاستبدال"
+              parent="menu_brandat_root"
+              action="action_brandat_sale_return"
+              sequence="11"/>
+</odoo>

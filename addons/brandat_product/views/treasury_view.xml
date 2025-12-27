@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Treasury Form -->
+    <record id="view_brandat_treasury_form" model="ir.ui.view">
+        <field name="name">brandat.treasury.form</field>
+        <field name="model">brandat.treasury</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_close" string="إغلاق الخزينة" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'open'"/>
+                    
+                    <button name="action_reopen" string="إعادة فتح" 
+                            type="object" class="btn-warning"
+                            invisible="state != 'closed'"/>
+                    
+                    <button name="action_view_transactions" string="عرض المعاملات" 
+                            type="object" class="btn-info"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="open,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="store_id" readonly="state == 'closed'"/>
+                            <field name="employee_id" readonly="state == 'closed'"/>
+                            <field name="date" readonly="state == 'closed'"/>
+                        </group>
+                        <group>
+                            <field name="opening_balance" readonly="1"/>
+                            <field name="closing_balance" readonly="1"/>
+                            <field name="difference" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="الملخص المالي">
+                            <group>
+                                <group string="الإيرادات">
+                                    <field name="total_sales" readonly="1"/>
+                                    <field name="total_income" readonly="1"/>
+                                </group>
+                                <group string="المصروفات">
+                                    <field name="total_purchases" readonly="1"/>
+                                    <field name="total_expense" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="المعاملات">
+                            <field name="transaction_ids" readonly="state == 'closed'">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="transaction_type"/>
+                                    <field name="amount"/>
+                                    <field name="payment_method"/>
+                                    <field name="date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Treasury List -->
+    <record id="view_brandat_treasury_list" model="ir.ui.view">
+        <field name="name">brandat.treasury.list</field>
+        <field name="model">brandat.treasury</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="store_id"/>
+                <field name="date"/>
+                <field name="opening_balance"/>
+                <field name="total_income" sum="الإجمالي"/>
+                <field name="total_expense" sum="الإجمالي"/>
+                <field name="closing_balance" sum="الإجمالي"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Treasury Action -->
+    <record id="action_brandat_treasury" model="ir.actions.act_window">
+        <field name="name">الخزينة</field>
+        <field name="res_model">brandat.treasury</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_accounting"
+              name="الحسابات"
+              parent="menu_brandat_root"
+              sequence="40"/>
+              
+    <menuitem id="menu_brandat_treasury"
+              name="الخزينة"
+              parent="menu_brandat_accounting"
+              action="action_brandat_treasury"
+              sequence="10"/>
+</odoo>

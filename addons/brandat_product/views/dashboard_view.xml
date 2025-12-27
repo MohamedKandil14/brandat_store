@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard Kanban View - عرض كامل بألوان محل الملابس -->
+    <record id="view_brandat_dashboard_kanban" model="ir.ui.view">
+        <field name="name">brandat.dashboard.kanban</field>
+        <field name="model">brandat.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard brandat_dashboard_full" create="false" edit="false" delete="false">
+                <field name="today_sales"/>
+                <field name="today_sales_count"/>
+                <field name="week_sales"/>
+                <field name="week_sales_count"/>
+                <field name="month_sales"/>
+                <field name="month_sales_count"/>
+                <field name="yesterday_sales"/>
+                <field name="sales_growth"/>
+                <field name="low_stock_count"/>
+                <field name="out_stock_count"/>
+                <field name="new_customers_today"/>
+                <field name="total_customers"/>
+                <field name="today_returns"/>
+                <field name="week_returns"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <!-- Container الرئيسي - عرض كامل -->
+                        <div style="background: linear-gradient(135deg, #F8F6F3 0%, #EAE4DB 100%); min-height: 100vh; width: 100%; margin: 0; padding: 0; position: relative;">
+                            
+                            <!-- عناصر ديكورية -->
+                            <div style="position: absolute; top: 0; right: 0; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201, 168, 117, 0.08) 0%, transparent 70%); pointer-events: none;"></div>
+                            <div style="position: absolute; bottom: 0; left: 0; width: 500px; height: 500px; background: radial-gradient(circle, rgba(44, 62, 80, 0.05) 0%, transparent 70%); pointer-events: none;"></div>
+                            
+                            <!-- Content Wrapper -->
+                            <div style="max-width: 100%; padding: 40px 60px; position: relative; z-index: 1;">
+                                
+                                <!-- Header الأنيق -->
+                                <div style="margin-bottom: 50px;">
+                                    <div style="text-align: center; padding: 60px 50px; background: linear-gradient(135deg, rgba(201, 168, 117, 0.95) 0%, rgba(212, 175, 122, 0.95) 50%, rgba(184, 151, 111, 0.95) 100%); backdrop-filter: blur(15px); border-radius: 30px; box-shadow: 0 20px 60px rgba(139, 111, 71, 0.25); position: relative; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.3);">
+                                        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #FFFFFF, transparent, #FFFFFF);"></div>
+                                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #FFFFFF, transparent, #FFFFFF);"></div>
+                                        
+                                        <div style="position: absolute; top: 20px; left: 40px; font-size: 48px; opacity: 0.2;">👔</div>
+                                        <div style="position: absolute; top: 20px; right: 40px; font-size: 48px; opacity: 0.2;">👗</div>
+                                        <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 36px; opacity: 0.2;">👠</div>
+                                        
+                                        <h1 style="color: white; margin: 0 0 20px 0; font-size: 56px; font-weight: 900; text-shadow: 3px 3px 8px rgba(0,0,0,0.3); letter-spacing: 3px;">
+                                            براندات للأزياء
+                                        </h1>
+                                        <p style="color: rgba(255,255,255,0.95); margin: 0; font-size: 22px; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
+                                            🎯 لوحة تحكم شاملة لإدارة محل الملابس الحريمي والرجالي
+                                        </p>
+                                        <div style="margin-top: 25px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                                            <div style="background: rgba(255, 255, 255, 0.25); padding: 12px 25px; border-radius: 25px; font-size: 15px; font-weight: 700; color: white; backdrop-filter: blur(5px);">
+                                                ⏰ تحديث مباشر
+                                            </div>
+                                            <div style="background: rgba(255, 255, 255, 0.25); padding: 12px 25px; border-radius: 25px; font-size: 15px; font-weight: 700; color: white; backdrop-filter: blur(5px);">
+                                                📊 تحليلات فورية
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Main KPIs -->
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;">
+                                    
+                                    <!-- مبيعات اليوم - Rose Gold -->
+                                    <div style="background: linear-gradient(145deg, #FFFFFF 0%, #FAF9F7 100%); padding: 40px 35px; border-radius: 25px; box-shadow: 0 10px 40px rgba(201, 168, 117, 0.15); border: 2px solid rgba(201, 168, 117, 0.2); transition: all 0.4s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 60px rgba(201, 168, 117, 0.25)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(201, 168, 117, 0.15)'">
+                                        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, #C9A875, #D4AF7A); border-radius: 50%; opacity: 0.08;"></div>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px;">
+                                            <span style="font-size: 19px; font-weight: 700; color: #2C2C2C;">💰 مبيعات اليوم</span>
+                                            <div style="background: linear-gradient(135deg, #C9A875 0%, #D4AF7A 100%); padding: 15px; border-radius: 18px; box-shadow: 0 6px 20px rgba(201, 168, 117, 0.3);">
+                                                <span style="font-size: 40px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));">💸</span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 44px; font-weight: 900; background: linear-gradient(135deg, #C9A875 0%, #B8976F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;">
+                                            <field name="today_sales" widget="monetary"/> 
+                                        </div>
+                                        <div style="font-size: 17px; color: #6B6B6B; margin-bottom: 18px; font-weight: 600;">
+                                            <field name="today_sales_count"/> فاتورة مكتملة
+                                        </div>
+                                        <div style="padding: 14px 20px; background: linear-gradient(135deg, rgba(107, 144, 128, 0.15) 0%, rgba(164, 195, 178, 0.15) 100%); border-radius: 15px; display: inline-block; border: 2px solid rgba(107, 144, 128, 0.25);">
+                                            <span style="font-size: 16px; color: #4A6F5A; font-weight: 700;">📈 النمو: </span>
+                                            <field name="sales_growth" widget="float" options="{'precision': 1}"/>
+                                            <span style="color: #6B9080; font-weight: 900; font-size: 18px;">%</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- مبيعات الأسبوع - Pink -->
+                                    <div style="background: linear-gradient(145deg, #FFFFFF 0%, #FAF9F7 100%); padding: 40px 35px; border-radius: 25px; box-shadow: 0 10px 40px rgba(232, 180, 184, 0.15); border: 2px solid rgba(232, 180, 184, 0.2); transition: all 0.4s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 60px rgba(232, 180, 184, 0.25)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(232, 180, 184, 0.15)'">
+                                        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, #E8B4B8, #D4A5A5); border-radius: 50%; opacity: 0.08;"></div>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px;">
+                                            <span style="font-size: 19px; font-weight: 700; color: #2C2C2C;">📅 مبيعات الأسبوع</span>
+                                            <div style="background: linear-gradient(135deg, #E8B4B8 0%, #D4A5A5 100%); padding: 15px; border-radius: 18px; box-shadow: 0 6px 20px rgba(232, 180, 184, 0.3);">
+                                                <span style="font-size: 40px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));">👗</span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 44px; font-weight: 900; background: linear-gradient(135deg, #E8B4B8 0%, #D4A5A5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;">
+                                            <field name="week_sales" widget="monetary"/>
+                                        </div>
+                                        <div style="font-size: 17px; color: #6B6B6B; font-weight: 600;">
+                                            <field name="week_sales_count"/> فاتورة
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- مبيعات الشهر - Navy -->
+                                    <div style="background: linear-gradient(145deg, #FFFFFF 0%, #FAF9F7 100%); padding: 40px 35px; border-radius: 25px; box-shadow: 0 10px 40px rgba(44, 62, 80, 0.15); border: 2px solid rgba(44, 62, 80, 0.2); transition: all 0.4s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 60px rgba(44, 62, 80, 0.25)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(44, 62, 80, 0.15)'">
+                                        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, #2C3E50, #34495E); border-radius: 50%; opacity: 0.08;"></div>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px;">
+                                            <span style="font-size: 19px; font-weight: 700; color: #2C2C2C;">📆 مبيعات الشهر</span>
+                                            <div style="background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%); padding: 15px; border-radius: 18px; box-shadow: 0 6px 20px rgba(44, 62, 80, 0.3);">
+                                                <span style="font-size: 40px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));">👔</span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 44px; font-weight: 900; background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;">
+                                            <field name="month_sales" widget="monetary"/>
+                                        </div>
+                                        <div style="font-size: 17px; color: #6B6B6B; font-weight: 600;">
+                                            <field name="month_sales_count"/> فاتورة
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- العملاء - Green -->
+                                    <div style="background: linear-gradient(145deg, #FFFFFF 0%, #FAF9F7 100%); padding: 40px 35px; border-radius: 25px; box-shadow: 0 10px 40px rgba(107, 144, 128, 0.15); border: 2px solid rgba(107, 144, 128, 0.2); transition: all 0.4s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 60px rgba(107, 144, 128, 0.25)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(107, 144, 128, 0.15)'">
+                                        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, #6B9080, #A4C3B2); border-radius: 50%; opacity: 0.08;"></div>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px;">
+                                            <span style="font-size: 19px; font-weight: 700; color: #2C2C2C;">👥 قاعدة العملاء</span>
+                                            <div style="background: linear-gradient(135deg, #6B9080 0%, #A4C3B2 100%); padding: 15px; border-radius: 18px; box-shadow: 0 6px 20px rgba(107, 144, 128, 0.3);">
+                                                <span style="font-size: 40px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));">🎯</span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 44px; font-weight: 900; background: linear-gradient(135deg, #6B9080 0%, #A4C3B2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;">
+                                            <field name="total_customers"/>
+                                        </div>
+                                        <div style="font-size: 17px; color: #6B6B6B; font-weight: 600;">
+                                            جدد اليوم: <span style="color: #6B9080; font-weight: 900; font-size: 20px;"><field name="new_customers_today"/></span>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <!-- Alerts Section -->
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 50px;">
+                                    
+                                    <!-- مخزون منخفض -->
+                                    <button name="%(action_brandat_stock)d" type="action" context="{'search_default_state_low': 1}" style="background: linear-gradient(145deg, #D4A373 0%, #E6C9A8 100%); padding: 45px 40px; border-radius: 25px; color: white; cursor: pointer; transition: all 0.5s ease; box-shadow: 0 15px 50px rgba(212, 163, 115, 0.3); position: relative; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.3);" onmouseover="this.style.transform='translateY(-15px)'; this.style.boxShadow='0 25px 70px rgba(212, 163, 115, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 50px rgba(212, 163, 115, 0.3)'">
+                                        <div style="position: absolute; top: -80px; left: -80px; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; filter: blur(50px);"></div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                                            <span style="font-size: 24px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">⚠️ مخزون منخفض</span>
+                                            <div style="background: rgba(255, 255, 255, 0.3); padding: 18px 26px; border-radius: 18px; backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.4);">
+                                                <span style="font-size: 36px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"><field name="low_stock_count"/></span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 18px; opacity: 0.95; margin-bottom: 25px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">منتج وصل للحد الأدنى</div>
+                                        <div style="padding: 16px; background: rgba(255, 255, 255, 0.25); border-radius: 15px; text-align: center; font-size: 16px; font-weight: 700; backdrop-filter: blur(5px); border: 2px solid rgba(255, 255, 255, 0.3);">
+                                            🔍 اضغط للتفاصيل والإجراءات →
+                                        </div>
+                                    </button>
+                                    
+                                    <!-- مخزون نفذ -->
+                                    <button name="%(action_brandat_stock)d" type="action" context="{'search_default_state_out': 1}" style="background: linear-gradient(145deg, #C5705D 0%, #D68B75 100%); padding: 45px 40px; border-radius: 25px; color: white; cursor: pointer; transition: all 0.5s ease; box-shadow: 0 15px 50px rgba(197, 112, 93, 0.3); position: relative; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.3);" onmouseover="this.style.transform='translateY(-15px)'; this.style.boxShadow='0 25px 70px rgba(197, 112, 93, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 50px rgba(197, 112, 93, 0.3)'">
+                                        <div style="position: absolute; top: -80px; right: -80px; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; filter: blur(50px);"></div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                                            <span style="font-size: 24px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">❌ مخزون نفذ</span>
+                                            <div style="background: rgba(255, 255, 255, 0.3); padding: 18px 26px; border-radius: 18px; backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.4);">
+                                                <span style="font-size: 36px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"><field name="out_stock_count"/></span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 18px; opacity: 0.95; margin-bottom: 25px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">منتج نفذ من المخزون</div>
+                                        <div style="padding: 16px; background: rgba(255, 255, 255, 0.25); border-radius: 15px; text-align: center; font-size: 16px; font-weight: 700; backdrop-filter: blur(5px); border: 2px solid rgba(255, 255, 255, 0.3);">
+                                            🔍 اضغط للتفاصيل والإجراءات →
+                                        </div>
+                                    </button>
+                                    
+                                    <!-- المرتجعات -->
+                                    <button name="%(action_brandat_sale_return)d" type="action" style="background: linear-gradient(145deg, #7A9CC6 0%, #8FB3D5 100%); padding: 45px 40px; border-radius: 25px; color: white; cursor: pointer; transition: all 0.5s ease; box-shadow: 0 15px 50px rgba(122, 156, 198, 0.3); position: relative; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.3);" onmouseover="this.style.transform='translateY(-15px)'; this.style.boxShadow='0 25px 70px rgba(122, 156, 198, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 50px rgba(122, 156, 198, 0.3)'">
+                                        <div style="position: absolute; bottom: -80px; right: -80px; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; filter: blur(50px);"></div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                                            <span style="font-size: 24px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">🔄 المرتجعات</span>
+                                            <div style="background: rgba(255, 255, 255, 0.3); padding: 18px 26px; border-radius: 18px; backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.4);">
+                                                <span style="font-size: 36px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"><field name="today_returns"/></span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 18px; opacity: 0.95; margin-bottom: 25px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">مرتجع اليوم</div>
+                                        <div style="padding: 16px; background: rgba(255, 255, 255, 0.25); border-radius: 15px; text-align: center; font-size: 16px; font-weight: 700; backdrop-filter: blur(5px); border: 2px solid rgba(255, 255, 255, 0.3);">
+                                            الأسبوع: <field name="week_returns"/> | 🔍 التفاصيل →
+                                        </div>
+                                    </button>
+                                    
+                                </div>
+                                
+                                <!-- Quick Actions -->
+                                <div style="background: linear-gradient(145deg, #FFFFFF 0%, #FAF9F7 100%); padding: 50px 45px; border-radius: 30px; box-shadow: 0 15px 50px rgba(139, 111, 71, 0.15); border: 2px solid rgba(201, 168, 117, 0.15);">
+                                    <div style="display: flex; align-items: center; margin-bottom: 40px;">
+                                        <div style="background: linear-gradient(135deg, #C9A875 0%, #D4AF7A 100%); padding: 20px 28px; border-radius: 18px; margin-left: 25px; box-shadow: 0 8px 25px rgba(201, 168, 117, 0.3);">
+                                            <span style="font-size: 38px;">⚡</span>
+                                        </div>
+                                        <h3 style="color: #2C2C2C; margin: 0; font-size: 34px; font-weight: 800;">إجراءات سريعة</h3>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px;">
+                                        
+                                        <!-- فاتورة جديدة -->
+                                        <button name="%(action_brandat_sale)d" type="action" context="{'default_state': 'draft'}" style="background: linear-gradient(135deg, #C9A875 0%, #B8976F 100%); color: white; padding: 32px 28px; border-radius: 20px; font-size: 19px; font-weight: 700; text-align: center; transition: all 0.4s ease; box-shadow: 0 8px 25px rgba(201, 168, 117, 0.3); cursor: pointer; border: 3px solid rgba(255, 255, 255, 0.2);" onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 15px 40px rgba(201, 168, 117, 0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 25px rgba(201, 168, 117, 0.3)'">
+                                            <i class="fa fa-plus-circle" style="font-size: 40px; margin-bottom: 14px; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));"/> 
+                                            <span style="text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">فاتورة جديدة</span>
+                                        </button>
+                                        
+                                        <!-- عميل جديد -->
+                                        <button name="%(action_brandat_customer)d" type="action" style="background: linear-gradient(135deg, #6B9080 0%, #A4C3B2 100%); color: white; padding: 32px 28px; border-radius: 20px; font-size: 19px; font-weight: 700; text-align: center; transition: all 0.4s ease; box-shadow: 0 8px 25px rgba(107, 144, 128, 0.3); cursor: pointer;
+                                        <function_calls>
+<invoke name="artifacts">
+<parameter name="command">update</parameter>
+<parameter name="id">full_dashboard_complete</parameter>
+<parameter name="old_str">                                        <!-- عميل جديد -->
+<button name="%(action_brandat_customer)d" type="action" style="background: linear-gradient(135deg, #6B9080 0%, #A4C3B2 100%); color: white; padding: 32px 28px; border-radius: 20px; font-size: 19px; font-weight: 700; text-align: center; transition: all 0.4s ease; box-shadow: 0 8px 25px rgba(107, 144, 128, 0.3); cursor: pointer;</parameter>
+<parameter name="new_str">                                        <!-- عميل جديد -->
+<button name="%(action_brandat_customer)d" type="action" style="background: linear-gradient(135deg, #6B9080 0%, #A4C3B2 100%); color: white; padding: 32px 28px; border-radius: 20px; font-size: 19px; font-weight: 700; text-align: center; transition: all 0.4s ease; box-shadow: 0 8px 25px rgba(107, 144, 128, 0.3); cursor: pointer; border: 3px solid rgba(255, 255, 255, 0.2);" onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 15px 40px rgba(107, 144, 128, 0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 25px rgba(107, 144, 128, 0.3)'">
+<i class="fa fa-user-plus" style="font-size: 40px; margin-bottom: 14px; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));"/>
+<span style="text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">عميل جديد</span>
+</button>

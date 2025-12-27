@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Expense Form -->
+    <record id="view_brandat_expense_form" model="ir.ui.view">
+        <field name="name">brandat.expense.form</field>
+        <field name="model">brandat.expense</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="تأكيد" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    
+                    <button name="action_pay" string="دفع" 
+                            type="object" class="btn-success"
+                            invisible="state != 'confirmed'"/>
+                    
+                    <button name="action_cancel" string="إلغاء" 
+                            type="object"
+                            invisible="state not in ['draft', 'confirmed']"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="expense_type" readonly="state == 'paid'"/>
+                            <field name="category_id" readonly="state == 'paid'"/>
+                            <field name="amount" readonly="state == 'paid'"/>
+                            <field name="date" readonly="state == 'paid'"/>
+                        </group>
+                        <group>
+                            <field name="store_id" readonly="state == 'paid'"/>
+                            <field name="treasury_id" readonly="state == 'paid'"/>
+                            <field name="employee_id" readonly="state == 'paid'"/>
+                            <field name="payment_method" readonly="state == 'paid'"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="description" placeholder="وصف المصروف..." 
+                               readonly="state == 'paid'"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="المرفقات">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Expense List -->
+    <record id="view_brandat_expense_list" model="ir.ui.view">
+        <field name="name">brandat.expense.list</field>
+        <field name="model">brandat.expense</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="expense_type"/>
+                <field name="category_id"/>
+                <field name="amount" sum="الإجمالي"/>
+                <field name="date"/>
+                <field name="store_id"/>
+                <field name="payment_method"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Expense Action -->
+    <record id="action_brandat_expense" model="ir.actions.act_window">
+        <field name="name">المصروفات</field>
+        <field name="res_model">brandat.expense</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Expense Category List -->
+    <record id="view_brandat_expense_category_list" model="ir.ui.view">
+        <field name="name">brandat.expense.category.list</field>
+        <field name="model">brandat.expense.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="expense_type"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Expense Category Action -->
+    <record id="action_brandat_expense_category" model="ir.actions.act_window">
+        <field name="name">تصنيفات المصروفات</field>
+        <field name="res_model">brandat.expense.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_expense"
+              name="المصروفات"
+              parent="menu_brandat_accounting"
+              action="action_brandat_expense"
+              sequence="40"/>
+              
+    <menuitem id="menu_brandat_expense_category"
+              name="تصنيفات المصروفات"
+              parent="menu_brandat_config"
+              action="action_brandat_expense_category"
+              sequence="60"/>
+</odoo>

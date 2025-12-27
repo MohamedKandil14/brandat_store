@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_brandat_store,access_brandat_store,model_brandat_store,,1,1,1,1

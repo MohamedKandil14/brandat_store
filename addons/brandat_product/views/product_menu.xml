@@ -1,0 +1,7 @@
+<odoo>
+    <menuitem
+        id="brandat_product_root"
+        name="المنتجات"
+        parent="brandat_core.brandat_root"
+        sequence="20"/>
+</odoo>

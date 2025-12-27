@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Customer Sequence -->
+        <record id="seq_brandat_customer" model="ir.sequence">
+            <field name="name">Brandat Customer</field>
+            <field name="code">brandat.customer</field>
+            <field name="prefix">CUST/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Supplier Sequence -->
+        <record id="seq_brandat_supplier" model="ir.sequence">
+            <field name="name">Brandat Supplier</field>
+            <field name="code">brandat.supplier</field>
+            <field name="prefix">SUPP/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Purchase Sequence -->
+        <record id="seq_brandat_purchase" model="ir.sequence">
+            <field name="name">Brandat Purchase</field>
+            <field name="code">brandat.purchase</field>
+            <field name="prefix">PO/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Stock Transfer Sequence -->
+        <record id="seq_brandat_stock_transfer" model="ir.sequence">
+            <field name="name">Brandat Stock Transfer</field>
+            <field name="code">brandat.stock.transfer</field>
+            <field name="prefix">TR/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Stock Inventory Sequence -->
+        <record id="seq_brandat_stock_inventory" model="ir.sequence">
+            <field name="name">Brandat Stock Inventory</field>
+            <field name="code">brandat.stock.inventory</field>
+            <field name="prefix">INV/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Sale Return Sequence -->
+        <record id="seq_brandat_sale_return" model="ir.sequence">
+            <field name="name">Brandat Sale Return</field>
+            <field name="code">brandat.sale.return</field>
+            <field name="prefix">RET/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Employee Sequence -->
+        <record id="seq_brandat_employee" model="ir.sequence">
+            <field name="name">Brandat Employee</field>
+            <field name="code">brandat.employee</field>
+            <field name="prefix">EMP/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+        </record>
+        <!-- Treasury Sequence -->
+<record id="seq_brandat_treasury" model="ir.sequence">
+    <field name="name">Brandat Treasury</field>
+    <field name="code">brandat.treasury</field>
+    <field name="prefix">TRES/</field>
+    <field name="padding">5</field>
+    <field name="number_next">1</field>
+</record>
+
+<!-- Transaction Sequence -->
+<record id="seq_brandat_transaction" model="ir.sequence">
+    <field name="name">Brandat Transaction</field>
+    <field name="code">brandat.transaction</field>
+    <field name="prefix">TRX/</field>
+    <field name="padding">5</field>
+    <field name="number_next">1</field>
+</record>
+
+<!-- Payment Sequence -->
+<record id="seq_brandat_payment" model="ir.sequence">
+    <field name="name">Brandat Payment</field>
+    <field name="code">brandat.payment</field>
+    <field name="prefix">PAY/</field>
+    <field name="padding">5</field>
+    <field name="number_next">1</field>
+</record>
+
+<!-- Expense Sequence -->
+<record id="seq_brandat_expense" model="ir.sequence">
+    <field name="name">Brandat Expense</field>
+    <field name="code">brandat.expense</field>
+    <field name="prefix">EXP/</field>
+    <field name="padding">5</field>
+    <field name="number_next">1</field>
+</record>
+    </data>
+</odoo>

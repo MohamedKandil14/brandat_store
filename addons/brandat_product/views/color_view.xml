@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_brandat_color_list" model="ir.ui.view">
+        <field name="name">brandat.color.list</field>
+        <field name="model">brandat.color</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_brandat_color_form" model="ir.ui.view">
+        <field name="name">brandat.color.form</field>
+        <field name="model">brandat.color</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_brandat_color" model="ir.actions.act_window">
+        <field name="name">الألوان</field>
+        <field name="res_model">brandat.color</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_brandat_color"
+              name="الألوان"
+              parent="menu_brandat_config"
+              action="action_brandat_color"
+              sequence="30"/>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Account Report Form -->
+    <record id="view_brandat_account_report_form" model="ir.ui.view">
+        <field name="name">brandat.account.report.form</field>
+        <field name="model">brandat.account.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="report_type"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="store_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_report" string="طباعة التقرير" 
+                            type="object" class="btn-primary"/>
+                    <button string="إلغاء" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Account Report Action -->
+    <record id="action_brandat_account_report" model="ir.actions.act_window">
+        <field name="name">التقارير المالية</field>
+        <field name="res_model">brandat.account.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_reports"
+              name="التقارير"
+              parent="menu_brandat_accounting"
+              sequence="90"/>
+              
+    <menuitem id="menu_brandat_account_report"
+              name="التقارير المالية"
+              parent="menu_brandat_reports"
+              action="action_brandat_account_report"
+              sequence="10"/>
+</odoo>

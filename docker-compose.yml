@@ -1,0 +1,27 @@
+
+services:
+  db:
+    image: postgres:16
+    container_name: brandat_db
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:18
+    container_name: brandat_odoo
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./addons:/mnt/extra-addons
+      - ./config:/etc/odoo
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo

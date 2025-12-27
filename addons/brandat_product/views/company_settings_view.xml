@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Company Settings Form -->
+    <record id="view_brandat_company_settings_form" model="ir.ui.view">
+        <field name="name">brandat.company.settings.form</field>
+        <field name="model">brandat.company.settings</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="إعدادات الشركة" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <notebook>
+                        <page string="معلومات الشركة">
+                            <group>
+                                <group string="البيانات الأساسية">
+                                    <field name="company_name" placeholder="براندات للملابس"/>
+                                    <field name="company_name_en" placeholder="Brandat Clothing"/>
+                                    <field name="tax_number" placeholder="123-456-789"/>
+                                    <field name="commercial_registration" placeholder="12345"/>
+                                </group>
+                                <group string="معلومات الاتصال">
+                                    <field name="phone1" placeholder="+20 123 456 7890"/>
+                                    <field name="phone2" placeholder="+20 098 765 4321"/>
+                                    <field name="email" placeholder="info@brandat.com"/>
+                                    <field name="website" placeholder="www.brandat.com"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="العنوان (عربي)">
+                                    <field name="address_ar" placeholder="123 شارع الهرم، الجيزة، مصر" nolabel="1"/>
+                                </group>
+                                <group string="العنوان (English)">
+                                    <field name="address_en" placeholder="123 Haram Street, Giza, Egypt" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="الشعار والختم">
+                            <group>
+                                <group string="الشعار">
+                                    <field name="company_logo" widget="image" class="oe_avatar"/>
+                                    <p class="text-muted">
+                                        قم بتحميل شعار الشركة (يفضل PNG بخلفية شفافة)
+                                    </p>
+                                </group>
+                                <group string="الختم">
+                                    <field name="company_stamp" widget="image" class="oe_avatar"/>
+                                    <field name="show_stamp"/>
+                                    <field name="show_signature"/>
+                                    <p class="text-muted">
+                                        قم بتحميل ختم الشركة (يفضل PNG بخلفية شفافة)
+                                    </p>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="إعدادات الفاتورة">
+                            <group>
+                                <group string="تذييل الفاتورة">
+                                    <field name="invoice_footer" placeholder="شكراً لثقتكم - Thanks for your trust" nolabel="1"/>
+                                </group>
+                                <group string="الشروط والأحكام">
+                                    <field name="terms_and_conditions" nolabel="1" 
+                                           placeholder="• البضاعة المباعة لا ترد ولا تستبدل إلا بعذر&#10;• يرجى فحص البضاعة قبل المغادرة&#10;• شكراً لثقتكم"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Company Settings List -->
+    <record id="view_brandat_company_settings_list" model="ir.ui.view">
+        <field name="name">brandat.company.settings.list</field>
+        <field name="model">brandat.company.settings</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false">
+                <field name="name"/>
+                <field name="company_name"/>
+                <field name="phone1"/>
+                <field name="email"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Company Settings Action -->
+    <record id="action_brandat_company_settings" model="ir.actions.act_window">
+        <field name="name">إعدادات الشركة</field>
+        <field name="res_model">brandat.company.settings</field>
+        <field name="view_mode">form,list</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_company_settings"
+              name="إعدادات الشركة"
+              parent="menu_brandat_config"
+              action="action_brandat_company_settings"
+              sequence="50"/>
+</odoo>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Customer Form -->
+    <record id="view_brandat_customer_form" model="ir.ui.view">
+        <field name="name">brandat.customer.form</field>
+        <field name="model">brandat.customer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_view_sales" string="عرض الفواتير" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sales" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="purchase_count" widget="statinfo" string="الفواتير"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="اسم العميل"/>
+                        </h1>
+                        <h3>
+                            <field name="code" readonly="1"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="customer_type"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="discount_percentage"/>
+                            <field name="loyalty_points" readonly="1"/>
+                            <field name="total_purchases" readonly="1" widget="monetary"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="address" placeholder="العنوان الكامل"/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="ملاحظات إضافية"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Customer List -->
+    <record id="view_brandat_customer_list" model="ir.ui.view">
+        <field name="name">brandat.customer.list</field>
+        <field name="model">brandat.customer</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="customer_type"/>
+                <field name="loyalty_points"/>
+                <field name="total_purchases" sum="الإجمالي"/>
+                <field name="purchase_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Customer Action -->
+    <record id="action_brandat_customer" model="ir.actions.act_window">
+        <field name="name">العملاء</field>
+        <field name="res_model">brandat.customer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Supplier Form -->
+    <record id="view_brandat_supplier_form" model="ir.ui.view">
+        <field name="name">brandat.supplier.form</field>
+        <field name="model">brandat.supplier</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_view_purchases" string="عرض فواتير الشراء" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchases" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="purchase_count" widget="statinfo" string="الفواتير"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="اسم المورد"/>
+                        </h1>
+                        <h3>
+                            <field name="code" readonly="1"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_name"/>
+                            <field name="tax_number"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="credit_limit" widget="monetary"/>
+                            <field name="payment_terms"/>
+                            <field name="total_purchases" readonly="1" widget="monetary"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="address" placeholder="العنوان الكامل"/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="ملاحظات إضافية"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Supplier List -->
+    <record id="view_brandat_supplier_list" model="ir.ui.view">
+        <field name="name">brandat.supplier.list</field>
+        <field name="model">brandat.supplier</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_name"/>
+                <field name="phone"/>
+                <field name="total_purchases" sum="الإجمالي"/>
+                <field name="purchase_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Supplier Action -->
+    <record id="action_brandat_supplier" model="ir.actions.act_window">
+        <field name="name">الموردين</field>
+        <field name="res_model">brandat.supplier</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Purchase Form -->
+    <record id="view_brandat_purchase_form" model="ir.ui.view">
+        <field name="name">brandat.purchase.form</field>
+        <field name="model">brandat.purchase</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="تأكيد" 
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="إلغاء" 
+                            type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_draft" string="إرجاع لمسودة" 
+                            type="object"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="supplier_id" readonly="state != 'draft'"/>
+                            <field name="store_id" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="amount_total" widget="monetary"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="المنتجات">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="size_id"/>
+                                    <field name="color_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Purchase List -->
+    <record id="view_brandat_purchase_list" model="ir.ui.view">
+        <field name="name">brandat.purchase.list</field>
+        <field name="model">brandat.purchase</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="store_id"/>
+                <field name="date"/>
+                <field name="amount_total" sum="الإجمالي"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Purchase Action -->
+    <record id="action_brandat_purchase" model="ir.actions.act_window">
+        <field name="name">فواتير الشراء</field>
+        <field name="res_model">brandat.purchase</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_brandat_customers"
+              name="العملاء"
+              parent="menu_brandat_root"
+              action="action_brandat_customer"
+              sequence="15"/>
+
+    <menuitem id="menu_brandat_suppliers"
+              name="الموردين"
+              parent="menu_brandat_config"
+              action="action_brandat_supplier"
+              sequence="40"/>
+
+    <menuitem id="menu_brandat_purchases"
+              name="فواتير الشراء"
+              parent="menu_brandat_root"
+              action="action_brandat_purchase"
+              sequence="12"/>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- طريقة 1: استخدام ir.ui.view بدلاً من template -->
+    <record id="brandat_assets_backend" model="ir.ui.view">
+        <field name="name">brandat.assets.backend</field>
+        <field name="type">qweb</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <data>
+                <link rel="stylesheet" type="text/css" href="/brandat_product/static/src/css/brandat_modern_style.css"/>
+            </data>
+        </field>
+    </record>
+</odoo>

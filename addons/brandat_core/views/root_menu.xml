@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem
+        id="brandat_root"
+        name="Brandat"
+        sequence="10"/>
+</odoo>

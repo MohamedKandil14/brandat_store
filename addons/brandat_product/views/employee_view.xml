@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Employee Form -->
+    <record id="view_brandat_employee_form" model="ir.ui.view">
+        <field name="name">brandat.employee.form</field>
+        <field name="model">brandat.employee</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_view_sales" string="عرض المبيعات" 
+                            type="object" class="btn-primary"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="active,inactive,suspended"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    
+                    <!-- Stat Buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sales" type="object" 
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="sale_count" widget="statinfo" string="الفواتير"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-dollar">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_sales" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">المبيعات</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-percent">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_commission" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">العمولات</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="اسم الموظف"/>
+                        </h1>
+                        <h3>
+                            <field name="code" readonly="1"/>
+                        </h3>
+                    </div>
+                    
+                    <group>
+                        <group string="المعلومات الأساسية">
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="national_id"/>
+                            <field name="birth_date"/>
+                        </group>
+                        <group string="معلومات الوظيفة">
+                            <field name="store_id"/>
+                            <field name="role"/>
+                            <field name="hire_date"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="الراتب والعمولة">
+                            <field name="salary"/>
+                            <field name="commission_rate"/>
+                        </group>
+                        <group string="العنوان">
+                            <field name="address" nolabel="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="ملاحظات">
+                            <field name="notes" placeholder="ملاحظات إضافية عن الموظف..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Employee List -->
+    <record id="view_brandat_employee_list" model="ir.ui.view">
+        <field name="name">brandat.employee.list</field>
+        <field name="model">brandat.employee</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="store_id"/>
+                <field name="role"/>
+                <field name="total_sales" sum="الإجمالي"/>
+                <field name="total_commission" sum="الإجمالي"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Employee Kanban -->
+    <record id="view_brandat_employee_kanban" model="ir.ui.view">
+        <field name="name">brandat.employee.kanban</field>
+        <field name="model">brandat.employee</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="role"/>
+                <field name="store_id"/>
+                <field name="total_sales"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img alt="Avatar" t-att-src="kanban_image('brandat.employee', 'image', record.id.raw_value)"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <field name="code"/>
+                                </div>
+                                <div>
+                                    <span class="badge badge-pill">
+                                        <field name="role"/>
+                                    </span>
+                                </div>
+                                <div>
+                                    <i class="fa fa-map-marker"/> <field name="store_id"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-dollar"/> <field name="total_sales"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Employee Action -->
+    <record id="action_brandat_employee" model="ir.actions.act_window">
+        <field name="name">الموظفين</field>
+        <field name="res_model">brandat.employee</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Attendance List -->
+    <record id="view_brandat_attendance_list" model="ir.ui.view">
+        <field name="name">brandat.attendance.list</field>
+        <field name="model">brandat.attendance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="worked_hours" sum="الإجمالي"/>
+                <field name="notes"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Attendance Action -->
+    <record id="action_brandat_attendance" model="ir.actions.act_window">
+        <field name="name">الحضور والانصراف</field>
+        <field name="res_model">brandat.attendance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_brandat_hr"
+              name="الموارد البشرية"
+              parent="menu_brandat_root"
+              sequence="60"/>
+              
+    <menuitem id="menu_brandat_employee"
+              name="الموظفين"
+              parent="menu_brandat_hr"
+              action="action_brandat_employee"
+              sequence="10"/>
+              
+    <menuitem id="menu_brandat_attendance"
+              name="الحضور والانصراف"
+              parent="menu_brandat_hr"
+              action="action_brandat_attendance"
+              sequence="20"/>
+</odoo>
