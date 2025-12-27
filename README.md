@@ -82,30 +82,42 @@ A comprehensive ERP solution specifically designed for clothing and fashion reta
 - Centralized inventory view
 
 ## 📸 Screenshots
-
+### company_setting
+![Dashboard](docs/screenshots/company.png)
 ### Dashboard
 ![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/dashboard2.png)
 
 ### Sales Invoice
-![Sales](docs/screenshots/sales.png)
+![Sales](docs/screenshots/C)
+![Sales](docs/screenshots/sales2.png)
+### products management
+![product](docs/screenshots/product.png)
+### customers management
+![product](docs/screenshots/customer.png)
 
 ### Inventory Management
 ![Inventory](docs/screenshots/inventory.png)
-
+### Employers Management
+![Employers](docs/screenshots/Employers.png)
+### reportss Management
+![Reports](docs/screenshots/Reports.png)
+##المرتجعات_والإستبدال
+![المرتجعات_والإستبدال](docs/screenshots/rep.png)
 ## 🚀 Installation
 
 ### Prerequisites
 
-- Odoo 17.0
+- Odoo 18.0
 - Python 3.10+
 - PostgreSQL 12+
 
 ### Steps
 
-1. **Clone the repository**
+1. **Clone the repository** 
 ```bash
-git clone https://github.com/yourusername/brandat-erp.git
-cd brandat-erp
+git clone https://github.com/MohamedKandil14/brandat_store
+
 ```
 
 2. **Copy to Odoo addons directory**
